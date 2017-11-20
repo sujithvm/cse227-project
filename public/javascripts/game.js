@@ -5,6 +5,14 @@ window.onload = function() {
         canvases.push(document.getElementById("canvas" + i));
         titles.push(document.getElementById("title" + i));
     }
+
+    var sequences = [[0, 2, 3, 1, 4, 0, 5], [0, 4, 5, 1, 0, 3, 2]]
+    var sqptr = 0;
+    var sequence = [];
+    var ptr = 0;
+    var count = 0;
+    var counter = null;
+
     var keycodeMap = {0:83, 1:68, 2:70, 3:74, 4:75, 5:76}
     var expectedKey = -1;
     var correctEntry = false;
@@ -63,37 +71,46 @@ window.onload = function() {
             callback()
         }
     }
-    
-    var sequence = [0, 2, 1, 5, 0, 3, 4];
-    
-    var ptr = 0;
+
     function callback() {
         ptr += 1;
         if (ptr >= sequence.length) {
-            speedup();
+            display();
             return;
         }
         var stack = sequence[ptr]
         intervals[stack] = setInterval( function() { draw(stack) }, 10);
     }
 
-    function speedup() {
+    function display() {
         y = Array(6).fill(0); 
         intervals = Array(6);
         ptr = 0;
-        dy += 0.5;
+        dy += 2;
         if (dy > 20) {
             clearInterval(counter);
+            sequencer();
             return;
         }
         callback();
     }
 
-    var count = 0;
-    var counter = setInterval(timer, 10);
     function timer() {
         count++;
         document.getElementById("timer").innerHTML= "" + count / 100+ " secs"; 
     }
-    speedup()
+
+    function sequencer() {
+        if (sqptr < sequences.length) {
+            sequence = sequences[sqptr++];
+            console.log(sequence)
+            ptr = 0;
+            count = 0;
+            dy = 0;
+            counter = setInterval(timer, 10);
+            display()
+        }
+    }
+
+    sequencer()
 }
