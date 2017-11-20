@@ -7,5 +7,15 @@ a {
   color: #00B7FF;
 }
 
-canvas { background: #eee; width:100%; }
-h1 { font-size: 6em}
+canvas { 
+  background: #eee; 
+  width:100%; 
+}
+
+h1 { 
+  font-size: 6em
+}
+
+span {
+  font-size: 1.8em
+}

@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mempass</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <script src="https://cdn.rawgit.com/jschr/textillate/master/assets/jquery.lettering.js"></script>
+    <script src="https://cdn.rawgit.com/jschr/textillate/master/jquery.textillate.js"></script>
+
+    <script>
+        window.onload = function() {
+            var actual = ["B", "_", "A", "_", "M", "_", "N"]
+            var word = actual.slice()
+            var pos = [1, 3, 5]
+            var ptr = 0
+
+            function renderWord() {
+                $("#word span").empty()
+                for (var i = 0; i < word.length; i++) {
+                    if ($.inArray(i, pos) >= 0) {
+                        $("#word").append("<span style=\"color: #0095DD; font-size: 12em;\">" + word[i] + "</span>");
+                    } else {
+                        $("#word").append("<span style=\"font-size: 12em;\">" + word[i] + "</span>");
+                    }
+                }
+            }
+
+            document.addEventListener("keydown", keyDownHandler, false);
+            function keyDownHandler(e) {
+                if (e.keyCode == 8) {
+                    if (ptr > 0) {
+                        word[pos[--ptr]] = "_"
+                        renderWord()
+                    }
+                    return
+                } 
+                
+                if (ptr < pos.length) {
+                    word[pos[ptr++]] = String.fromCharCode(e.keyCode);
+                    renderWord()
+                }
+            }
+
+            $("#clear").click(function(){
+                ptr = 0
+                word = actual.slice()
+                renderWord()
+            })
+            
+            renderWord();
+        }
+    </script>
+</head>
+<body>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <div class="text-center">
+                <div id="word"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-2">
+            <button type="button" id="clear" class="btn btn-danger btn-block">
+                <i class="fa fa-trash" aria-hidden="true"></i> Clear
+            </button>
+        </div>
+        <div class="col-md-2">
+            <button type="button" id="next" class="btn btn-success btn-block">
+                <span class="fa fa-arrow-right" aria-hidden="true"></span> Next
+            </button>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

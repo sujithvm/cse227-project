@@ -16,6 +16,7 @@ try {
 var index = require('./routes/index');
 var game = require('./routes/game');
 var word = require('./routes/word');
+var wordcomplete = require('./routes/wordcomplete');
 var users = require('./routes/users');
 
 var app = express();
@@ -36,6 +37,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/game', game);
 app.use('/word', word);
+app.use('/wordcomplete', wordcomplete);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
