@@ -74,7 +74,6 @@ dinosaur d_n_sa__
 duodenum _u__e_um
 electron __ec_r_n
 ellipse _ll_p_e
-emissary e__s_ar_
 epitaph _pi__ph
 espresso _s_r_s_o
 estuary _stu_r_
@@ -135,7 +134,6 @@ nirvana _i_va_a
 nocturne no____ne
 obelisk ob__i_k
 octopus o_t__us
-operetta _p___tta
 oration ora__o_
 outsider _u_s__er
 paraffin ____ff_n
@@ -190,3 +188,5 @@ wavelet _av__et
 yeomanry y_o__nr_
 yoghurt _o_hur_
 zeppelin z___e_in
+emissary e__s_ar_
+operetta _p___tta
