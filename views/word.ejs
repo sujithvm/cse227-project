@@ -27,9 +27,7 @@
                     console.log(word.charAt(i))
                     $("#word").append("<span class=\"tlt2\">" + word.charAt(i) + "</span>");
                 }
-               
             }
-            
         })
 
         $(function () {
@@ -46,11 +44,13 @@
     
 </head>
 <body>
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-            <div class="text-center">
-                <div id="word"></div>
-                <p class="lead" style="margin-top:50px">Meaning of this word ?</p>
+    <div id="app">
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <div class="text-center">
+                    <div id="word"></div>
+                    <p class="lead" style="margin-top:50px">Meaning of this word ?</p>
+                </div>
             </div>
         </div>
     </div>

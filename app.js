@@ -7,13 +7,15 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 try {
-  mongoose.connect('mongodb://localhost/mempass');
+  mongoose.connect('mongodb://localhost/memauth');
 } catch (err) {
   throw new Error("Could not connect to database");
 }
 
+require('./models/UserGameSchema');
 
 var index = require('./routes/index');
+var signup = require('./routes/signup');
 var game = require('./routes/game');
 var word = require('./routes/word');
 var wordcomplete = require('./routes/wordcomplete');
@@ -38,6 +40,7 @@ app.use('/users', users);
 app.use('/game', game);
 app.use('/word', word);
 app.use('/wordcomplete', wordcomplete);
+app.use('/signup', signup);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
