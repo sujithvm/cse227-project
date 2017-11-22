@@ -6,8 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mempass</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link rel="stylesheet" href="/stylesheets/style.css">
+    <script>
+    var data = <%- JSON.stringify(data) %>;
+    </script>
     <script src="/javascripts/game.js" type="text/javascript"></script>
 </head>
 <body>
@@ -61,8 +65,8 @@
 
             <div class="row justify-content-center">
                 <div class="col-md-2">
-                    <h4 class="text-center" id="score" style="color: green"> 
-                        Score: 0
+                    <h4 class="text-center" id="hits" style="color: green"> 
+                        Hits: 0
                     </h4>
                 </div>
                 <div class="col-md-2">

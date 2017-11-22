@@ -15,9 +15,31 @@ router.get('/', function(req, res, next) {
                     obj.name = req.query.name;
                     obj.email = req.query.email;
                     obj.token = token;
-                    UserGame(obj).save();
-                } 
-                res.redirect("/game/train?token=" + token);
+                    obj.patterns = []
+
+                    var p1 = new Object()
+                    p1.encoding = "SDFJKL"
+                    p1.pattern = [0, 1, 0, 2, 3, 4, 5]
+                    p1.results = []
+
+                    var p2 = new Object()
+                    p2.encoding = "LSDKFJ"
+                    p2.pattern = [0, 5, 0, 1, 4, 2, 3]
+                    p2.results = []
+
+                    obj.patterns.push(p1);
+                    obj.patterns.push(p2);
+                    
+                    UserGame(obj).save(function(err) {
+                        if (!err) {
+                            res.redirect("/game/train?token=" + token);
+                        } else {
+                            res.render('error', { title: 'Error' });
+                        }
+                    });
+                } else {
+                    res.redirect("/game/train?token=" + token);
+                }
             });
         } else if (req.query.authentication_type == "game") {
             res.redirect("/word/train?token=" + token);
