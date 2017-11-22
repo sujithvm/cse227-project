@@ -1,6 +1,9 @@
 body {
+  font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+#app {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
@@ -12,7 +15,7 @@ canvas {
   width:100%; 
 }
 
-h1 { 
+.title { 
   font-size: 6em
 }
 
