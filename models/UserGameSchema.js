@@ -5,9 +5,15 @@ var UserGameSchema = new mongoose.Schema({
     email : String,
     token : String,
     patterns : [{
-        hits: Number,
-        misses: Number,
-        time: Number
+        encoding : String,
+        pattern : [],
+        results : [
+            {
+                hits: Number,
+                misses: Number,
+                time: Number
+            }
+        ]
     }]
 })
 

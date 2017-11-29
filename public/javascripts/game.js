@@ -1,4 +1,6 @@
 window.onload = function() {
+    console.log(data)
+    
     var canvases = []
     var titles = []
     for (var i = 0; i < 6; i++) {
@@ -6,8 +8,8 @@ window.onload = function() {
         titles.push(document.getElementById("title" + i));
     }
 
-    var sequences = [[0, 2, 3, 1, 4, 0, 5], [0, 4, 5, 1, 0, 3, 2]]
-    var sqptr = 0;
+    var sequences = data.patterns
+    var sqptr = -1;
     var sequence = [];
     var ptr = 0;
     var count = 0;
@@ -17,10 +19,10 @@ window.onload = function() {
     var expectedKey = -1;
     var correctEntry = false;
     var keyPressed = false;
-    var score = 0;
+    var hits = 0;
     var misses = 0; 
 
-    var scoreDisplay = document.getElementById("score");
+    var hitsDisplay = document.getElementById("hits");
     var missesDisplay = document.getElementById("misses");
 
     document.addEventListener("keydown", keyDownHandler, false);
@@ -42,7 +44,7 @@ window.onload = function() {
         expectedKey = keycodeMap[forCanvas]
         var skip = false;
 
-        scoreDisplay.innerHTML = "Score: " + score;
+        hitsDisplay.innerHTML = "Hits: " + hits;
         missesDisplay.innerHTML = "Misses: " + misses;
     
         var canvas = canvases[forCanvas];
@@ -57,7 +59,7 @@ window.onload = function() {
         y[forCanvas] += dy; 
 
         if (correctEntry) {    
-            score += 1;
+            hits += 1;
             correctEntry = false;
             titles[forCanvas].style.color = "green"
             skip = true;
@@ -89,10 +91,25 @@ window.onload = function() {
         dy += 2;
         if (dy > 20) {
             clearInterval(counter);
+            saveAndReset()
             sequencer();
             return;
         }
         callback();
+    }
+
+    function saveAndReset() {
+        data.patterns[sqptr].results.push({
+            "hits": hits,
+            "misses": misses,
+            "time": count
+        })
+  
+        hits = 0;
+        misses = 0;
+        ptr = 0;
+        count = 0;
+        dy = 0;
     }
 
     function timer() {
@@ -101,14 +118,24 @@ window.onload = function() {
     }
 
     function sequencer() {
+        sqptr++;
         if (sqptr < sequences.length) {
-            sequence = sequences[sqptr++];
+            sequence = sequences[sqptr].pattern;
             console.log(sequence)
-            ptr = 0;
-            count = 0;
-            dy = 0;
+            
             counter = setInterval(timer, 10);
             display()
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/game/trainstore",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(data){ },
+                failure: function(errMsg) { }
+            });
+            console.log(data);
         }
     }
 
