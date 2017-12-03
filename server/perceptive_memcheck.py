@@ -54,3 +54,8 @@ class PerceptiveMemoryChecker:
             d["POSITIONS"] =  [i for i, ltr in enumerate(d['BLANKS']) if ltr == "_"]
         return results
 
+    def store_stats_for_user(self, user, stats):
+        print(self.db['users'].find_one_and_update({'name': user}, {'$push': {'stats':
+            stats}}))
+        return True
+
