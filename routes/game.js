@@ -11,7 +11,7 @@ router.get('/train', function(req, res, next) {
       res.render('error');
       return;
     }
-    res.render('game', { data: user });
+    res.render('game', { userdata: user });
   });
 });
 
@@ -24,7 +24,7 @@ router.post('/trainstore', function(req, res, next) {
       return;
     }
     console.log(user)
-    user.patterns = obj.patterns;
+    user.data = obj.data;
     user.save(function(err){
       if (err) {res.render('error'); }
       else {res.sendStatus(200);}

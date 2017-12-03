@@ -1,143 +1,192 @@
 window.onload = function() {
-    console.log(data)
     
-    var canvases = []
-    var titles = []
-    for (var i = 0; i < 6; i++) {
-        canvases.push(document.getElementById("canvas" + i));
-        titles.push(document.getElementById("title" + i));
-    }
-
-    var sequences = data.patterns
-    var sqptr = -1;
-    var sequence = [];
-    var ptr = 0;
-    var count = 0;
-    var counter = null;
-
-    var keycodeMap = {0:83, 1:68, 2:70, 3:74, 4:75, 5:76}
-    var expectedKey = -1;
-    var correctEntry = false;
-    var keyPressed = false;
-    var hits = 0;
-    var misses = 0; 
-
-    var hitsDisplay = document.getElementById("hits");
-    var missesDisplay = document.getElementById("misses");
-
-    document.addEventListener("keydown", keyDownHandler, false);
-    function keyDownHandler(e) {
-        keyPressed = true;
-        if (e.keyCode == expectedKey) {
-            correctEntry = true
-        } else {
-            misses += 1;
+        //console.log(userdata)
+        
+        var canvases = []
+        var titles = []
+        for (var i = 0; i < 6; i++) {
+            canvases.push(document.getElementById("canvas" + i));
+            titles.push(document.getElementById("title" + i));
         }
-    }
-
-    var y = Array(6).fill(0); 
-    var dy = 1; 
-    var intervals = Array(6);
+        var lineMarker = 200;
+        var ballRadius = 50;
     
-    function draw(forCanvas) {
-        titles[forCanvas].style.color = "orange"
-        expectedKey = keycodeMap[forCanvas]
-        var skip = false;
-
-        hitsDisplay.innerHTML = "Hits: " + hits;
-        missesDisplay.innerHTML = "Misses: " + misses;
+        var hits = 0;
+        var misses = 0; 
+        var hitsDisplay = document.getElementById("hits");
+        var missesDisplay = document.getElementById("misses");
     
-        var canvas = canvases[forCanvas];
-        var ctx = canvas.getContext("2d");
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.beginPath();
-        ctx.arc(canvas.width / 2, y[forCanvas], 50, 0, Math.PI*2);
-        ctx.fillStyle = "#0095DD";
-        ctx.fill();
-        ctx.closePath();
-        y[forCanvas] += dy; 
-
-        if (correctEntry) {    
-            hits += 1;
-            correctEntry = false;
-            titles[forCanvas].style.color = "green"
-            skip = true;
-        }  
-
-        if (skip || y[forCanvas] > canvas.height + 80) {
-            y = Array(6).fill(0)
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            titles[forCanvas].style.color = "black"
-            clearInterval(intervals[forCanvas]);
-            callback()
+        var keycodeMap = {0:83, 1:68, 2:70, 3:74, 4:75, 5:76}
+        var charNumMap = {'S': 0, 'D': 1, 'F': 2, 'J': 3, 'K': 4, 'L':5}
+        var expectedKey = -1;
+        var correctkeyPressed = false;
+        var keyPressed = false;
+    
+        var queue = []    
+        var currentBall = null;
+        var levels = userdata["data"]["levels"]
+    
+        document.addEventListener("keydown", keyDownHandler, false);
+        function keyDownHandler(e) {
+            keyPressed = true;
+    
+            if (currentBall && e.keyCode == expectedKey && currentBall.y >= canvases[currentBall.canvasNumber].height - lineMarker - ballRadius ) {
+                queue = queue.filter(b => b.id != currentBall.id);
+                hits += 1;
+                pattern_hits += 1;
+                expectedKey = -1;
+                correctkeyPressed = true
+            } else {
+                misses += 1;
+                pattern_misses += 1;
+            }
         }
-    }
-
-    function callback() {
-        ptr += 1;
-        if (ptr >= sequence.length) {
-            display();
-            return;
+    
+        function guid() {
+            function s4() {
+              return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
+            }
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+              s4() + '-' + s4() + s4() + s4();
+          }
+    
+        var Ball = {
+            create: function(canvasNumber, dy) {
+                var ball = Object.create(this);
+                ball.id = guid();
+                ball.canvasNumber = canvasNumber;
+                ball.canvas = canvases[canvasNumber];
+                ball.ctx = ball.canvas.getContext("2d");
+                ball.x = ball.canvas.width / 2;
+                ball.dx = 0;
+                ball.y = 0;
+                ball.dy = dy;
+                return ball;
+            },
+    
+            draw: function() { 
+                this.ctx.beginPath();
+                this.ctx.arc(this.x, this.y, ballRadius, 0, Math.PI*2);
+    
+                if (this.y >= canvases[this.canvasNumber].height - lineMarker - ballRadius) {
+                    this.ctx.fillStyle = "orange"
+                    titles[this.canvasNumber].style.color = "orange"
+                } else {
+                    this.ctx.fillStyle = "#0095DD";
+                }
+    
+                this.ctx.fill();
+                this.ctx.closePath();
+                this.move();
+            },
+    
+            move: function() {
+                this.y += this.dy;
+            }
         }
-        var stack = sequence[ptr]
-        intervals[stack] = setInterval( function() { draw(stack) }, 10);
-    }
-
-    function display() {
-        y = Array(6).fill(0); 
-        intervals = Array(6);
-        ptr = 0;
-        dy += 2;
-        if (dy > 20) {
-            clearInterval(counter);
-            saveAndReset()
-            sequencer();
-            return;
+    
+        function drawLineMarkers() {
+            for (var i = 0; i < canvases.length; i++) {
+                var ctx = canvases[i].getContext("2d")
+                ctx.setLineDash([5, 3]);
+                ctx.beginPath();
+                ctx.moveTo(0, canvases[i].height - lineMarker);
+                ctx.lineTo(canvases[i].width, canvases[i].height - lineMarker);
+                ctx.stroke();
+            }
         }
-        callback();
-    }
-
-    function saveAndReset() {
-        data.patterns[sqptr].results.push({
-            "hits": hits,
-            "misses": misses,
-            "time": count
-        })
-  
-        hits = 0;
-        misses = 0;
-        ptr = 0;
-        count = 0;
-        dy = 0;
-    }
-
-    function timer() {
-        count++;
-        document.getElementById("timer").innerHTML= "" + count / 100+ " secs"; 
-    }
-
-    function sequencer() {
-        sqptr++;
-        if (sqptr < sequences.length) {
-            sequence = sequences[sqptr].pattern;
-            console.log(sequence)
+        
+        var levptr = -1
+        var sqptr = -1
+        var patptr = -1 
+        var sequence = []
+        var pattern = "";
+        var pattern_hits = 0;
+        var pattern_misses = 0;
+        var speed = 0;
+        var interval = 0;
+    
+        function nextLevel() {
+            levptr++;
+            if (levptr < levels.length) {
+                var level = levels[levptr]
+                sequence = level["sequence"]
+                speed = level["speed"]
+                interval = level["interval"]
+                sqptr = -1;
+                
+                setTimeout(function() {
+                    playSequence()
+                }, interval * 2000);
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/game/trainstore",
+                    data: JSON.stringify(userdata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function(data){ },
+                    failure: function(errMsg) { }
+                });
+    
+    
+                console.log(userdata)
+            }
+        }
+    
+        function playSequence() {
+            sqptr++;
+            if (sqptr < sequence.length) {
+                pattern = sequence[sqptr];
+                patptr = -1
+                pattern_hits = 0
+                pattern_misses = 0
+                showPattern()
+            } else {
+                nextLevel();
+            }
+        }
+    
+        function showPattern() {
+            patptr++;
+            if (patptr < pattern.length) {
+                setTimeout(function() {
+                    queue.push(Ball.create(charNumMap[pattern[patptr]], speed))
+                    showPattern()
+                }, interval * 1000);
+            } else {
+                console.log({"pattern" : pattern, "hits": pattern_hits, "misses": pattern_misses})
+                userdata["data"]["levels"][levptr]["pattern_scores"][pattern].push({"hits": pattern_hits, "misses": pattern_misses})
+                playSequence(); 
+            }
+        }
+    
+        function display() {
+            hitsDisplay.innerHTML = "Hits: " + hits;
+            missesDisplay.innerHTML = "Misses: " + misses;
+    
+            for (var i = 0; i < 6; i++) {
+                canvases[i].getContext("2d").clearRect(0, 0, canvases[i].width, canvases[i].height)
+                titles[i].style.color = "black"
+            }
+            drawLineMarkers();
+    
+            queue = queue.filter(b => b.y < b.canvas.height + ballRadius);
+    
+            for (var i = 0; i < queue.length; i++) {
+                queue[i].draw()
+            }
+    
+            if (queue.length > 0) {
+                currentBall = queue.reduce((p, c) => (p.y > c.y) ? p : c)
+                expectedKey = keycodeMap[currentBall.canvasNumber];
+            }
             
-            counter = setInterval(timer, 10);
-            display()
-        } else {
-            $.ajax({
-                type: "POST",
-                url: "/game/trainstore",
-                data: JSON.stringify(data),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function(data){ },
-                failure: function(errMsg) { }
-            });
-            console.log(data);
         }
+    
+        nextLevel();
+        setInterval(function(){ display() }, 10);
+    
     }
-
-    sequencer()
-}

@@ -4,17 +4,17 @@ var UserGameSchema = new mongoose.Schema({
     name : String,
     email : String,
     token : String,
-    patterns : [{
-        encoding : String,
-        pattern : [],
-        results : [
+    data: {
+        password: [],
+        levels: [
             {
-                hits: Number,
-                misses: Number,
-                time: Number
+                speed: Number,
+                interval: Number,
+                sequence: [],
+                pattern_scores: {}
             }
         ]
-    }]
+    }
 })
 
 mongoose.model('UserGame', UserGameSchema)
