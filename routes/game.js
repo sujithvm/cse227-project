@@ -2,35 +2,26 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var UserGame = mongoose.model('UserGame');
+var GameSequenceGenerator = require('../utils/game_sequence_generator')
 
-/* GET home page. */
+
 router.get('/train', function(req, res, next) {
-  var token = req.query.token;
-  UserGame.findOne({token: token}, function (err, user) {
-    if (err) {
-      res.render('error');
-      return;
-    }
-    res.render('game', { userdata: user });
-  });
+  var user = new Object();
+  user.name = req.query.name;
+  user.email = req.query.email;
+  user.data = GameSequenceGenerator()  
+  res.render('game', { userdata: user });
 });
 
 router.post('/trainstore', function(req, res, next) {
   var obj = req.body
-
-  UserGame.findOne({token: obj.token}, function (err, user) {
+  UserGame(obj).save(function(err) {
     if (err) {
       res.render('error');
-      return;
+    } else {
+      res.sendStatus(200);
     }
-    console.log(user)
-    user.data = obj.data;
-    user.save(function(err){
-      if (err) {res.render('error'); }
-      else {res.sendStatus(200);}
-    })
   });
-  
 });
 
 router.get('/test', function(req, res, next) {

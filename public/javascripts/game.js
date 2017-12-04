@@ -25,17 +25,21 @@ window.onload = function() {
         var queue = []    
         var currentBall = null;
         var levels = userdata["data"]["levels"]
+        var gameRender = null;
     
         document.addEventListener("keydown", keyDownHandler, false);
         function keyDownHandler(e) {
             keyPressed = true;
     
             if (currentBall && e.keyCode == expectedKey && currentBall.y >= canvases[currentBall.canvasNumber].height - lineMarker - ballRadius ) {
-                queue = queue.filter(b => b.id != currentBall.id);
                 hits += 1;
                 pattern_hits += 1;
                 expectedKey = -1;
                 correctkeyPressed = true
+
+                currentBall.show = false;
+                cleanQueue()
+
             } else {
                 misses += 1;
                 pattern_misses += 1;
@@ -53,9 +57,12 @@ window.onload = function() {
           }
     
         var Ball = {
-            create: function(canvasNumber, dy) {
+            create: function(level, pattern, patternPosition, canvasNumber, dy) {
                 var ball = Object.create(this);
                 ball.id = guid();
+                ball.level = level;
+                ball.pattern = pattern;
+                ball.patternPosition = patternPosition;
                 ball.canvasNumber = canvasNumber;
                 ball.canvas = canvases[canvasNumber];
                 ball.ctx = ball.canvas.getContext("2d");
@@ -63,6 +70,7 @@ window.onload = function() {
                 ball.dx = 0;
                 ball.y = 0;
                 ball.dy = dy;
+                ball.show = true;
                 return ball;
             },
     
@@ -120,20 +128,7 @@ window.onload = function() {
                 setTimeout(function() {
                     playSequence()
                 }, interval * 2000);
-            } else {
-                $.ajax({
-                    type: "POST",
-                    url: "/game/trainstore",
-                    data: JSON.stringify(userdata),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function(data){ },
-                    failure: function(errMsg) { }
-                });
-    
-    
-                console.log(userdata)
-            }
+            } 
         }
     
         function playSequence() {
@@ -141,8 +136,6 @@ window.onload = function() {
             if (sqptr < sequence.length) {
                 pattern = sequence[sqptr];
                 patptr = -1
-                pattern_hits = 0
-                pattern_misses = 0
                 showPattern()
             } else {
                 nextLevel();
@@ -153,12 +146,11 @@ window.onload = function() {
             patptr++;
             if (patptr < pattern.length) {
                 setTimeout(function() {
-                    queue.push(Ball.create(charNumMap[pattern[patptr]], speed))
+
+                    queue.push(Ball.create(levptr, pattern, patptr, charNumMap[pattern[patptr]], speed))
                     showPattern()
                 }, interval * 1000);
             } else {
-                console.log({"pattern" : pattern, "hits": pattern_hits, "misses": pattern_misses})
-                userdata["data"]["levels"][levptr]["pattern_scores"][pattern].push({"hits": pattern_hits, "misses": pattern_misses})
                 playSequence(); 
             }
         }
@@ -173,8 +165,8 @@ window.onload = function() {
             }
             drawLineMarkers();
     
-            queue = queue.filter(b => b.y < b.canvas.height + ballRadius);
-    
+            cleanQueue()
+            
             for (var i = 0; i < queue.length; i++) {
                 queue[i].draw()
             }
@@ -183,10 +175,41 @@ window.onload = function() {
                 currentBall = queue.reduce((p, c) => (p.y > c.y) ? p : c)
                 expectedKey = keycodeMap[currentBall.canvasNumber];
             }
+
+            if (levptr == levels.length && queue.length == 0) {
+                clearInterval(gameRender)
+
+                $.ajax({
+                    type: "POST",
+                    url: "/game/trainstore",
+                    data: JSON.stringify(userdata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function(data){ },
+                    failure: function(errMsg) { }
+                });
+                
+                console.log(userdata);
+            }
+        }
+
+        function cleanQueue() {
+
+            var temp = queue.filter(b => (b.show == false || b.y >= b.canvas.height + ballRadius) && b.patternPosition == 5)
+            if (temp.length == 1) {
+                var b = temp[0];
+                userdata["data"]["levels"][b.level]["pattern_scores"][b.pattern].push({"hits": pattern_hits, "misses": pattern_misses})
+                
+                console.log({"hits": pattern_hits, "misses": pattern_misses});
+                pattern_hits = 0;
+                pattern_misses = 0;
+            }
             
+            queue = queue.filter(b => b.show == true);
+            queue = queue.filter(b => b.y < b.canvas.height + ballRadius);
         }
     
         nextLevel();
-        setInterval(function(){ display() }, 10);
+        gameRender = setInterval(function(){ display() }, 10);
     
     }
