@@ -42,7 +42,7 @@ router.get('/', function(req, res, next) {
                     res.redirect("/game/train?token=" + token);
                 }
             });
-        } else if (req.query.authentication_type == "game") {
+        } else if (req.query.authentication_type == "word_completion") {
             res.redirect("/word/train?token=" + token);
         } else if (req.query.authentication_type == "poc") {
             res.render('signup', { title: 'Signup' });
