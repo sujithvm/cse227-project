@@ -13,6 +13,7 @@ class ProceduralMemoryChecker:
     def __init__(self):
         client = MongoClient()
         self.db = client['procedural_mem_check_db']
+        self.test_set = None
 
     def _get_word_set_for_user(self, user):
         return (self.db['users'].find_one({"name":user}, {"_id":0,
@@ -42,7 +43,34 @@ class ProceduralMemoryChecker:
         categories = self.db.collection_names()
         categories = [x for x in categories  if x != 'users']
         return categories
-         
+
+    def store_user_choices(self, user, choices):
+        self.db['users'].find_one_and_update({'name':user}, {"$set":
+            {"choices":choices}})
+
+    def _find_similarity(self, word1, word2):
+        word1 = wordnet.synset(word1+".n.01")
+        word2 = wordnet.synset(word2+".n.01")
+        return wordnet.wup_similarity(word1, word2)
+
+    def send_user_choices(self, user, choices):
+        train_set_choices = self.db['users'].find_one({"name":user}, {"_id":0,
+            "name":0, "word_set":0, "stats":0})['choices']
+        num_correct = 0
+        for i, choice in enumerate(choices):
+            test_pair = self.test_set[i]
+            sims = [self._find_similarity(train_set_choices[i], x) for x in test_pair]
+            pred_choice = None
+            if sims[0] >= sims[1]:
+                pred_choice = test_pair[0]
+            else:
+                pred_choice = test_pair[1]
+            if choice == pred_choice:
+                num_correct += 1
+
+        self.db['users'].find_one_and_update({'name': user}, {'$push':
+            {'stats': num_correct}})
+
 
     def register_user(self, user):
         results = list(self.db['users'].find({'name':user}))
@@ -59,8 +87,6 @@ class ProceduralMemoryChecker:
         return word_set_for_user
 
     def _get_similar_word(self, word, word_set):
-        if word not in word_set:
-            print(word, word_set, len(word_set))
         word1 = wordnet.synset(word + ".n.01")
         similarity = []
         reinsert = False
@@ -93,6 +119,7 @@ class ProceduralMemoryChecker:
                     category_words[word_tuple[2]] - words)
             words.add(similar_word2)
             test_set_for_user.append((similar_word1, similar_word2))
+        self.test_set = test_set_for_user
         return test_set_for_user
 
         """ 

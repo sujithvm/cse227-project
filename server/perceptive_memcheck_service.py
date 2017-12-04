@@ -20,9 +20,10 @@ def test():
 
 @app.route('/auth', methods=['POST'])
 def store_stats():
-    user = request.args.get('user')
+    user = request.form.get('user')
     stats = request.form.get('stats')
     pmc.store_stats_for_user(user, stats)
+    return "DONE"
 
 if __name__ == '__main__':
     app.run()

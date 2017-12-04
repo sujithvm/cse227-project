@@ -13,6 +13,13 @@ def signup():
     success = pmc.register_user(user)
     return jsonify(pmc.get_train_set_for_user(user))
 
+@app.route('/train', methods=['POST'])
+def train():
+    user = request.form.get('user')
+    choices = eval(request.form.get('choices'))
+    pmc.store_user_choices(user, choices)
+    return "DONE"
+
 @app.route('/test')
 def test():
     user = request.args.get('user')
@@ -20,9 +27,10 @@ def test():
 
 @app.route('/auth', methods=['POST'])
 def store_stats():
-    user = request.args.get('user')
-    stats = request.form.get('stats')
-    pmc.store_stats_for_user(user, stats)
+    user = request.form.get('user')
+    choices = eval(request.form.get('choices'))
+    pmc.send_user_choices(user, choices)
+    return "DONE"
 
 if __name__ == '__main__':
     app.run()
