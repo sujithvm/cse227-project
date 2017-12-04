@@ -22,7 +22,6 @@
     <script>
         window.onload = function() {
             data = JSON.parse(data)
-
             var ptr = 0;
             
             function showNextWord() {
@@ -32,6 +31,7 @@
                     var pos = data[ptr]['POSITIONS']
 
                     $("#word").empty()
+                    $("#meaning").text(data[ptr]['DESCRIPTION'])
 
                     for (var i = 0; i < word.length; i++) {
                         if ($.inArray(i, pos) >= 0) {
@@ -44,7 +44,7 @@
                     $('.tlt1').textillate({ in: { effect: 'fadeIn'}, out: { effect: 'fadeOut' }  });
                     $('.tlt2').textillate({ in: { effect: 'fadeIn'}, out: { effect: 'fadeOut' }  });
                 } else {
-
+                    
                 }
             }
 
@@ -58,7 +58,7 @@
                             ptr += 1;
                             showNextWord()
                         }, 800)
-
+                        
                     }, 1500)
                 }  
             })
@@ -74,7 +74,7 @@
             <div class="container">
                 <div class="text-center">
                     <div id="word"></div>
-                    <p class="lead" style="margin-top:50px">Meaning of this word ?</p>
+                    <p id="meaning" class="lead" style="margin-top:20px"></p>
                 </div>
             </div>
         </div>
