@@ -3,7 +3,7 @@ var router = express.Router();
 var request = require('request');
 
 router.get('/train', function(req, res, next) {
-  request("http://localhost:5000/signup?user=" + req.query.name, function (error, response, body) {
+  request("http://localhost:5000/perceptive/signup?user=" + req.query.name, function (error, response, body) {
     if (error) {
       res.render('error')
     } else {
@@ -13,7 +13,7 @@ router.get('/train', function(req, res, next) {
 });
 
 router.get('/auth', function(req, res, next) {
-  request("http://localhost:5000/test?user=" + req.query.name, function (error, response, body) {
+  request("http://localhost:5000/perceptive/test?user=" + req.query.name, function (error, response, body) {
     if (error) {
       res.render('error')
     } else {
@@ -25,7 +25,7 @@ router.get('/auth', function(req, res, next) {
 router.post('/store', function(req, res, next) {
 
   request({
-    url: "http://localhost:5000/auth?user=",
+    url: "http://localhost:5000/perceptive/auth?user=",
     method: "POST",
     json: true,   
     body: req.body
