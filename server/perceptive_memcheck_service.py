@@ -1,6 +1,7 @@
 from flask import request
 from flask import Flask
 from flask import jsonify
+import json
 
 from perceptive_memcheck import PerceptiveMemoryChecker
 
@@ -23,6 +24,7 @@ def store_stats():
     user = request.args.get('user')
     stats = request.form.get('stats')
     pmc.store_stats_for_user(user, stats)
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
 if __name__ == '__main__':
     app.run()

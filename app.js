@@ -18,6 +18,7 @@ var index = require('./routes/index');
 var signup = require('./routes/signup');
 var game = require('./routes/game');
 var word = require('./routes/word');
+var authenticate = require('./routes/authenticate')
 var wordcomplete = require('./routes/wordcomplete');
 var users = require('./routes/users');
 
@@ -41,6 +42,7 @@ app.use('/game', game);
 app.use('/word', word);
 app.use('/wordcomplete', wordcomplete);
 app.use('/signup', signup);
+app.use('/authenticate', authenticate);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

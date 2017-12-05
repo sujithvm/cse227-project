@@ -16,17 +16,49 @@
     <script src="https://cdn.rawgit.com/jschr/textillate/master/jquery.textillate.js"></script>
 
     <script>
+        var data = <%- JSON.stringify(data) %>;
+        var user = <%- JSON.stringify(user) %>;
+    </script>
+
+    <script>
         window.onload = function() {
-            var actual = ["B", "_", "A", "_", "M", "_", "N"]
-            var word = actual.slice()
-            var pos = [1, 3, 5]
-            var ptr = 0
+
+            data = JSON.parse(data)
+            var ptr = 0;
+
+            var actual = []
+            var word = []
+            var pos = []
+            var p = 0;
+     
+            function showNextWord() {
+                if (ptr < data.length) {
+                    actual = data[ptr]['BLANKS'].toUpperCase().split("")
+                    word = actual.slice()
+                    pos = data[ptr]['POSITIONS']
+                    p = 0;
+                
+                    renderWord()
+                } else {
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/word/store",
+                        data: {"user": user, "stats": data},
+                        dataType: "json",
+                        success: function(data){ },
+                        failure: function(errMsg) { console.log(errMsg) }
+                    });
+
+                    console.log(data)
+                }
+            }
 
             function renderWord() {
-                $("#word span").empty()
+                $("#word").empty()
                 for (var i = 0; i < word.length; i++) {
                     if ($.inArray(i, pos) >= 0) {
-                        $("#word").append("<span style=\"color: #0095DD; font-size: 12em;\">" + word[i] + "</span>");
+                        $("#word").append("<span style=\"color: #0095DD; font-size: 12em; padding-left:2px; padding-right:2px \">" + word[i] + "</span>");
                     } else {
                         $("#word").append("<span style=\"font-size: 12em;\">" + word[i] + "</span>");
                     }
@@ -36,26 +68,35 @@
             document.addEventListener("keydown", keyDownHandler, false);
             function keyDownHandler(e) {
                 if (e.keyCode == 8) {
-                    if (ptr > 0) {
-                        word[pos[--ptr]] = "_"
+                    if (p > 0) {
+                        word[pos[--p]] = "_"
                         renderWord()
                     }
                     return
                 } 
                 
-                if (ptr < pos.length) {
-                    word[pos[ptr++]] = String.fromCharCode(e.keyCode);
+                if (p < pos.length) {
+                    word[pos[p++]] = String.fromCharCode(e.keyCode);
                     renderWord()
                 }
             }
 
             $("#clear").click(function(){
-                ptr = 0
+                p = 0
                 word = actual.slice()
                 renderWord()
             })
+
+            $("#next").click(function(){
+                if (ptr < data.length) {
+                    data[ptr]['USER_INPUT'] = word
+                    ptr += 1
+                }
             
-            renderWord();
+                showNextWord()
+            })
+            
+            showNextWord();
         }
     </script>
 </head>

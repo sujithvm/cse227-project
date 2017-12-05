@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 
-/* GET home page. */
 router.get('/train', function(req, res, next) {
   request("http://localhost:5000/signup?user=" + req.query.name, function (error, response, body) {
     if (error) {
@@ -11,6 +10,33 @@ router.get('/train', function(req, res, next) {
       res.render('word', { data: body});
     }
   });
+});
+
+router.get('/auth', function(req, res, next) {
+  request("http://localhost:5000/test?user=" + req.query.name, function (error, response, body) {
+    if (error) {
+      res.render('error')
+    } else {
+      res.render('wordcomplete', { data: body , user: req.query.name});
+    }
+  });
+});
+
+router.post('/store', function(req, res, next) {
+
+  request({
+    url: "http://localhost:5000/auth?user=",
+    method: "POST",
+    json: true,   
+    body: req.body
+  }, function (error, response, body){
+    if (error) {
+      res.render('error')
+    } else {
+      res.render('index');
+    }
+  });
+
 });
 
 module.exports = router;

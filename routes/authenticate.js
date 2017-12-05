@@ -5,16 +5,16 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
     if (req.query.name && req.query.email && req.query.authentication_type) {
         if (req.query.authentication_type == "game") {
-            res.redirect("/game/train?name=" + req.query.name + "&email=" + req.query.email);
+            res.redirect("/game/auth?name=" + req.query.name + "&email=" + req.query.email);
         } else if (req.query.authentication_type == "word_completion") {
-            res.redirect("/word/train?name=" + req.query.name + "&email=" + req.query.email);
+            res.redirect("/word/auth?name=" + req.query.name + "&email=" + req.query.email);
         } else if (req.query.authentication_type == "poc") {
-            res.render('signup', { title: 'Signup' });
+            res.render('authenticate', { title: 'Authenticate' });
         } else {
-            res.render('signup', { title: 'Signup' });
+            res.render('authenticate', { title: 'Authenticate' });
         }
     } else {
-        res.render('signup', { title: 'Signup' });
+        res.render('authenticate', { title: 'Authenticate' });
     }
 });
 
