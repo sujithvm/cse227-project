@@ -43,11 +43,18 @@
 
                     $('.tlt1').textillate({ in: { effect: 'fadeIn'}, out: { effect: 'fadeOut' }  });
                     $('.tlt2').textillate({ in: { effect: 'fadeIn'}, out: { effect: 'fadeOut' }  });
+
+                    $("#next").removeAttr("disabled")
+
                 } else {  
+                    alert("You are now trained with words. Go to Authenticate!!");
+                    window.location.href="/authenticate"
                 }
             }
 
             $("#next").click(function() {
+                $("#next").attr("disabled","disabled");
+
                 if (ptr < data.length) {
                     $('.tlt1').textillate('out')
                     setTimeout(function(){

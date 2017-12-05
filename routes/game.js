@@ -17,9 +17,9 @@ router.post('/trainstore', function(req, res, next) {
   var obj = req.body
   UserGame(obj).save(function(err) {
     if (err) {
-      res.render('error');
+      return res.render('error');
     } else {
-      res.sendStatus(200);
+      return res.render('authenticate');
     }
   });
 });

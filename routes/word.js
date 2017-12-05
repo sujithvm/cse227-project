@@ -30,6 +30,10 @@ router.post('/store', function(req, res, next) {
     json: true,   
     body: req.body
   }, function (error, response, body){
+
+    console.log(error)
+    console.log(body)
+  
     if (error) {
       res.render('error')
     } else {

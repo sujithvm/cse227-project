@@ -44,14 +44,15 @@ function gameSequenceGenerator() {
     shuffle(permutations)
 
     var data = {}
-    data["password"] = permutations.splice(0, 1)
+    data["password"] = permutations.splice(0, 5)
     data["levels"] = []
 
-    for (var lev = 1; lev <= 3; lev++) {
+    var initial_interval = 2;
+    for (var lev = 1; lev <= 5; lev++) {
 
         var temp = []
         for (var i = 0; i < data["password"].length; i++) {
-            temp = temp.concat(Array(2).fill(data["password"][i]))
+            temp = temp.concat(Array(5).fill(data["password"][i]))
         }
         shuffle(temp)
         var sequence = []
@@ -66,14 +67,15 @@ function gameSequenceGenerator() {
         }
 
         var level = {
-            "speed": lev * 2,
-            "interval": 2,
+            "speed": lev * 1.5,
+            "interval": initial_interval * 0.8,
             "sequence": sequence,
             "pattern_scores" : pattern_scores
         }
         data["levels"].push(level)
+
+        initial_interval *= 0.8;
     }
-    console.log(data)
     return data;
 }
 

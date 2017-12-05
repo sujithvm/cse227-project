@@ -127,7 +127,7 @@ window.onload = function() {
                 
                 setTimeout(function() {
                     playSequence()
-                }, interval * 2000);
+                }, 2500);
             } 
         }
     
@@ -185,11 +185,14 @@ window.onload = function() {
                     data: JSON.stringify(userdata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
-                    success: function(data){ },
-                    failure: function(errMsg) { }
+                    success: function(){
+                    },
+                    failure: function() { 
+                    } 
                 });
-                
-                console.log(userdata);
+
+                alert("You are now trained with game. Go to Authenticate !!")
+                window.location.href = "/authenticate"
             }
         }
 
@@ -200,7 +203,6 @@ window.onload = function() {
                 var b = temp[0];
                 userdata["data"]["levels"][b.level]["pattern_scores"][b.pattern].push({"hits": pattern_hits, "misses": pattern_misses})
                 
-                console.log({"hits": pattern_hits, "misses": pattern_misses});
                 pattern_hits = 0;
                 pattern_misses = 0;
             }
