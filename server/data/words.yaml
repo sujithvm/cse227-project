@@ -309,7 +309,6 @@ sport:
 - squash
 - tennis
 - volleyball
-- field_game
 - golf
 - paintball
 - shuffleboard
@@ -356,7 +355,6 @@ sport:
 - softball
 - stickball
 beverage:
-- alcohol
 - cider
 - cocoa
 - coffee
