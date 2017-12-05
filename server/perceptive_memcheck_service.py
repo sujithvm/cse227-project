@@ -26,5 +26,3 @@ def store_stats():
     pmc.store_stats_for_user(user, stats)
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
-if __name__ == '__main__':
-    app.run()
