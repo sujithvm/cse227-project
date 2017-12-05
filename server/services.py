@@ -52,6 +52,3 @@ def poc_store_stats():
     choices = eval(request.form.get('choices'))
     poc.send_user_choices(user, choices)
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
-
-if __name__ == '__main__':
-    app.run()
