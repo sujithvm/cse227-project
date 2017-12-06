@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mempass</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+
+    <script>
+    var data = <%- JSON.stringify(data) %>;
+    var user = <%- JSON.stringify(user) %>;
+    var type = <%- JSON.stringify(type) %>;
+    </script>
+
+    <script>
+        window.onload = function() {
+            data = JSON.parse(data)
+
+            console.log(type)
+
+
+            var results = []
+            var ptr = 0
+            var word1 = ""
+            var word2 = ""
+
+            document.addEventListener("keydown", keyDownHandler, false);
+            function keyDownHandler(e) {
+                if (e.keyCode == 37) {
+                    results[ptr] = word1
+                    nextCombination()
+                } else if (e.keyCode == 39) {
+                    results[ptr] = word2
+                    nextCombination()
+                }
+            }
+
+            function showCombination() {
+                word1 = data[ptr][0]
+                word2 = data[ptr][1]
+                $("#word1").html(cleanWord(word1))
+                $("#word2").html(cleanWord(word2))
+            }
+
+            function nextCombination() {
+                if (ptr + 1 < data.length) {
+                    ptr += 1;
+                    showCombination()
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "/poc/trainstore",
+                        dataType: "application/json",
+                        data: {"user": user, "choices": JSON.stringify(results)}
+                    });
+
+                    alert("You have completed this section. Go to Authenticate!!");
+                    window.location.href="/authenticate"
+                }
+            }
+
+            function cleanWord(w) {
+                return w.replace('_', ' ')
+            }
+
+            showCombination()
+        }        
+    </script>
+</head>
+<body>
+    <div id="app">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-outline-secondary" style="height: 400px;">
+                        <div class="card-block">
+                            <div class="text-center" style="font-size:3.5em; margin-top: 130px" >
+                                <div id="word1" class="text-primary">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-outline-secondary" style="height: 400px;">
+                        <div class="card-block">
+                            <div class="text-center" style="font-size:3.5em; margin-top: 130px" >
+                                <div id="word2" class="text-primary">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 20px">
+                <div class="col-md-12">
+                    <div class="text-center">
+                        <p style="font-size: 1.2em">Please choose word by pressing Left arrow &larr; or Right arrow &rarr;.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

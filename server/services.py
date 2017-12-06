@@ -38,6 +38,8 @@ def poc_signup():
 def poc_train():
     user = request.form.get('user')
     choices = eval(request.form.get('choices'))
+    print user
+    print choices
     poc.store_user_choices(user, choices)
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
