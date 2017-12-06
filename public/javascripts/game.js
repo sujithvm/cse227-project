@@ -8,7 +8,7 @@ window.onload = function() {
             canvases.push(document.getElementById("canvas" + i));
             titles.push(document.getElementById("title" + i));
         }
-        var lineMarker = 200;
+        var lineMarker = 180;
         var ballRadius = 50;
     
         var hits = 0;
@@ -124,6 +124,7 @@ window.onload = function() {
                 speed = level["speed"]
                 interval = level["interval"]
                 sqptr = -1;
+		lineMarker += 20;
                 
                 setTimeout(function() {
                     playSequence()
