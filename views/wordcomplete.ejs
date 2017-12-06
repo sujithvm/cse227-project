@@ -44,7 +44,7 @@
                     $.ajax({
                         type: "POST",
                         url: "/word/store",
-                        data: {"user": user, "stats": data},
+                        data: {"user": user, "stats": JSON.stringify(data)},
                         dataType: "json",
                         success: function(data){ },
                         failure: function(errMsg) { console.log(errMsg) }

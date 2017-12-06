@@ -24,23 +24,15 @@ router.get('/auth', function(req, res, next) {
 
 router.post('/store', function(req, res, next) {
 
-  request({
-    url: "http://localhost:5000/perceptive/auth?user=",
-    method: "POST",
-    json: true,   
-    body: req.body
-  }, function (error, response, body){
+  var data = {'user': req.body.user, 'stats': req.body.stats}
 
-    console.log(error)
-    console.log(body)
-  
-    if (error) {
-      res.render('error')
-    } else {
-      res.render('index');
-    }
-  });
-
+  request.post({url:'http://localhost:5000/perceptive/auth', form: data}, function(err, response, body){ 
+      if (err) {
+          res.render('error')
+      } else {
+          res.render('index')
+      }
+   })
 });
 
 module.exports = router;

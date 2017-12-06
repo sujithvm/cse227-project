@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
         } else if (req.query.authentication_type == "word_completion") {
             res.redirect("/word/auth?name=" + req.query.name + "&email=" + req.query.email);
         } else if (req.query.authentication_type == "poc") {
-            res.render('authenticate', { title: 'Authenticate' });
+            res.redirect("/poc/test?name=" + req.query.name + "&email=" + req.query.email);
         } else {
             res.render('authenticate', { title: 'Authenticate' });
         }
