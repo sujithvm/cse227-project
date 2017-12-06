@@ -50,6 +50,9 @@
                         failure: function(errMsg) { console.log(errMsg) }
                     });
 
+                    alert("You can have completed this session. Thank you!")
+                    window.location.href = "/"
+
                     console.log(data)
                 }
             }
@@ -89,7 +92,7 @@
 
             $("#next").click(function(){
                 if (ptr < data.length) {
-                    data[ptr]['USER_INPUT'] = word
+                    data[ptr]['USER_INPUT'] = word.join("").toLowerCase()
                     ptr += 1
                 }
             
