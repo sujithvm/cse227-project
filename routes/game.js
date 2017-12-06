@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-var UserGame = mongoose.model('UserGame');
+var UserTrainGame = mongoose.model('UserTrainGame');
+var UserTestGame = mongoose.model('UserTestGame');
 var GameSequenceGenerator = require('../utils/game_sequence_generator')
 
 
@@ -9,13 +10,13 @@ router.get('/train', function(req, res, next) {
   var user = new Object();
   user.name = req.query.name;
   user.email = req.query.email;
-  user.data = GameSequenceGenerator()  
-  res.render('game', { userdata: user });
+  user.data = GameSequenceGenerator(null)  
+  res.render('game', { userdata: user, type: "train" });
 });
 
 router.post('/trainstore', function(req, res, next) {
   var obj = req.body
-  UserGame(obj).save(function(err) {
+  UserTrainGame(obj).save(function(err) {
     if (err) {
       return res.render('error');
     } else {
@@ -25,7 +26,30 @@ router.post('/trainstore', function(req, res, next) {
 });
 
 router.get('/test', function(req, res, next) {
-  res.render('game', { title: 'Game' });
+  UserTrainGame.findOne({'name': req.query.name, 'email': req.query.email}, function(err, usergame){
+    if (err) {
+      res.render('error')
+    } else {
+      var user = new Object();
+      user.name = req.query.name;
+      user.email = req.query.email;
+      user.data = GameSequenceGenerator(usergame.data.password)  
+
+      console.log(usergame.data.password)
+      res.render('game', { userdata: user, type: "test" });
+    }
+  })
+});
+
+router.post('/teststore', function(req, res, next) {
+  var obj = req.body
+  UserTestGame(obj).save(function(err) {
+    if (err) {
+      return res.render('error');
+    } else {
+      return res.render('index');
+    }
+  });
 });
 
 module.exports = router;

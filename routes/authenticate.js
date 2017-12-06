@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
     if (req.query.name && req.query.email && req.query.authentication_type) {
         if (req.query.authentication_type == "game") {
-            res.redirect("/game/auth?name=" + req.query.name + "&email=" + req.query.email);
+            res.redirect("/game/test?name=" + req.query.name + "&email=" + req.query.email);
         } else if (req.query.authentication_type == "word_completion") {
             res.redirect("/word/auth?name=" + req.query.name + "&email=" + req.query.email);
         } else if (req.query.authentication_type == "poc") {

@@ -38,13 +38,13 @@ function shuffle(a) {
     }
 }
 
-function gameSequenceGenerator() {
+function gameSequenceGenerator(pass_seq) {
 
     var permutations = Array.from(permute("SDFJKL".split(''))).map(perm => perm.join(''))
     shuffle(permutations)
 
     var data = {}
-    data["password"] = permutations.splice(0, 5)
+    data["password"] = pass_seq ? pass_seq : permutations.splice(0, 5)
     data["levels"] = []
 
     var initial_interval = 1.2;
@@ -59,7 +59,10 @@ function gameSequenceGenerator() {
         var sequence = []
         for (var i = 0; i < temp.length; i++) {
             sequence.push(temp[i]);
-            //sequence.push(permutations[Math.floor(Math.random() * permutations.length)])
+
+            if (pass_seq) {
+                sequence.push(permutations[Math.floor(Math.random() * permutations.length)])
+            }
         }
 
         var pattern_scores = {}

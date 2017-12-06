@@ -17,4 +17,5 @@ var UserGameSchema = new mongoose.Schema({
     }
 })
 
-mongoose.model('UserGame', UserGameSchema)
+mongoose.model('UserTrainGame', UserGameSchema)
+mongoose.model('UserTestGame', UserGameSchema)

@@ -182,18 +182,20 @@ window.onload = function() {
 
                 $.ajax({
                     type: "POST",
-                    url: "/game/trainstore",
+                    url: type == "train" ? "/game/trainstore" : "/game/teststore",
                     data: JSON.stringify(userdata),
                     contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function(){
-                    },
-                    failure: function() { 
-                    } 
+                    dataType: "json"
                 });
 
-                alert("You are now trained with game. Go to Authenticate !!")
-                window.location.href = "/authenticate"
+                if (type == "train") {
+                    alert("You are now trained with game. Go to Authenticate !!")
+                    window.location.href = "/authenticate"
+                } else {
+                    alert("Thank you!")
+                    window.location.href = "/"
+                }
+                
             }
         }
 
