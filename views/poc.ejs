@@ -56,7 +56,7 @@
                 } else {
                     $.ajax({
                         type: "POST",
-                        url: "/poc/trainstore",
+                        url: type == "train" ? "/poc/trainstore" : "/poc/teststore",
                         dataType: "application/json",
                         data: {"user": user, "choices": JSON.stringify(results)}
                     });
