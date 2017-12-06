@@ -19,7 +19,6 @@ var signup = require('./routes/signup');
 var game = require('./routes/game');
 var word = require('./routes/word');
 var authenticate = require('./routes/authenticate')
-var wordcomplete = require('./routes/wordcomplete');
 var users = require('./routes/users');
 
 var app = express();
@@ -40,7 +39,6 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/game', game);
 app.use('/word', word);
-app.use('/wordcomplete', wordcomplete);
 app.use('/signup', signup);
 app.use('/authenticate', authenticate);
 
