@@ -61,8 +61,15 @@
                         data: {"user": user, "choices": JSON.stringify(results)}
                     });
 
-                    alert("You have completed this section. Go to Authenticate!!");
-                    window.location.href="/authenticate"
+                    
+                    if (type == train) {
+                        alert("You have completed this section. Now authenticate yourself!!");
+                        window.location.href="/authenticate"
+                    } else {
+                        alert("You have completed this section. Thank you!!");
+                        window.location.href="/"
+                    }
+                    
                 }
             }
 
