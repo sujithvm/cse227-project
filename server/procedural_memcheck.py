@@ -35,8 +35,9 @@ class ProceduralMemoryChecker:
             for w in words:
                 word2 = wordnet.synset(w + ".n.01")
                 similarity.append((wordnet.wup_similarity(word1,word2), w))
-            sorted(similarity, reverse=False)
-            result.append((word, random.choice(similarity[:10])[1], category))
+            similarity = sorted(similarity)
+            print(word, similarity[:5])
+            result.append((word, random.choice(similarity[:5])[1], category))
         return result
 
     def _get_word_categories(self):
@@ -98,7 +99,7 @@ class ProceduralMemoryChecker:
             similarity.append((wordnet.wup_similarity(word1,word2), w))
         if reinsert:
             word_set.add(word)
-        sorted(similarity, reverse=True)
+        similarity = sorted(similarity, reverse=True)
         return random.choice(similarity[:10])[1]
 
         

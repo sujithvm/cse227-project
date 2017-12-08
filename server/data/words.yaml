@@ -3,7 +3,6 @@ fruits:
 - apricot
 - avocado
 - banana
-- berry
 - cherry
 - custard_apple
 - fig
@@ -13,7 +12,6 @@ fruits:
 - kiwi
 - litchi
 - mango
-- melon
 - nectarine
 - papaya
 - passion_fruit
@@ -25,7 +23,6 @@ fruits:
 - blackberry
 - blueberry
 - cranberry
-- currant
 - mulberry
 - raspberry
 - strawberry
@@ -49,13 +46,11 @@ geological formations:
 - oceanfront
 - ridge
 - shore
-- slope
 - spring
 - volcanic_crater
 - water_table
 - cavern
 - cove
-- precipice
 - glacier
 - ice_field
 - iceberg
@@ -90,7 +85,6 @@ geological formations:
 - rift_valley
 - tableland
 - foothill
-- seamount
 - volcano
 - dune
 - reef
@@ -101,8 +95,6 @@ geological formations:
 - riverbank
 - waterside
 - downhill
-- continental_shelf
-- continental_slope
 - sandpit
 - canyon
 - gorge
@@ -120,7 +112,6 @@ vehicle:
 - tank
 - warplane
 - warship
-- missile
 - bicycle
 - car
 - handcart
@@ -151,7 +142,6 @@ vehicle:
 - van
 - applecart
 - barrow
-- hand_truck
 - laundry_cart
 - serving_cart
 - shopping_cart
@@ -187,16 +177,12 @@ vehicle:
 - submarine
 - space_probe
 - cattle_car
-- coal_car
 - pastry_cart
 - tea_cart
 - buggy
 - cab
 - chariot
 - coach
-- diesel_locomotive
-- electric_locomotive
-- steam_locomotive
 - car
 - go-kart
 - golfcart
@@ -232,9 +218,7 @@ vehicle:
 - sports_car
 - minibike
 - trail_bike
-- dump_truck
 - fire_engine
-- garbage_truck
 - lorry
 - tow_truck
 - tractor
@@ -259,7 +243,6 @@ sport:
 - cycling
 - gymnastics
 - judo
-- outdoor_sport
 - racing
 - riding
 - rock_climbing
@@ -268,7 +251,6 @@ sport:
 - skiing
 - sledding
 - ice_hockey
-- tetherball
 - water_polo
 - bullfighting
 - cockfighting
@@ -287,14 +269,12 @@ sport:
 - greyhound_racing
 - horse_racing
 - pony-trekking
-- sculling
 - ice_skating
 - roller_skating
 - skateboarding
 - speed_skating
 - cross-country_skiing
 - ski_jumping
-- bobsledding
 - jumping
 - track
 - surfing
@@ -732,7 +712,6 @@ nutriment:
 - gumdrop
 - hard_candy
 - honey_crisp
-- horehound
 - jelly_bean
 - lollipop
 - marshmallow

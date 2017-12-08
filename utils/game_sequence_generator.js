@@ -71,8 +71,8 @@ function gameSequenceGenerator(pass_seq) {
         }
 
         var level = {
-            "speed": initial_speed + (lev-1) * 1.1,
-            "interval": initial_interval - ((1.1) * (lev-1) * initial_interval)/(initial_speed + (lev-1) * 1.1),
+            "speed": initial_speed + (lev-1) * 1.05,
+            "interval": initial_interval - ((1.05) * (lev-1) * initial_interval)/(initial_speed + (lev-1) * 1.05),
             "sequence": sequence,
             "pattern_scores" : pattern_scores
         }
