@@ -21,27 +21,24 @@
     </div>
     <div class="jumbotron">
         <div class="container">
-            <p>Authenticate using Memory Game or Word Game or POC Image classification.</p>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <form action="/authenticate" method="GET">
-                    <div class="form-group">
-                        <label for="inputName">Name</label>
-                        <input type="text" class="form-control" name="name" id="inputName" placeholder="Enter name">
-                    </div>
-                    <div class="form-group">
-                        <label for="inputEmail">Email address</label>
-                        <input type="email" class="form-control" name="email" id="inputEmail" placeholder="Enter email">
-                    </div>
-                    <button class="btn btn-primary btn-block" name="authentication_type" value="game">Game</button>
-                    <button class="btn btn-primary btn-block" name="authentication_type" value="word_completion">Word</button>
-                    <button class="btn btn-primary btn-block" name="authentication_type" value="poc">PoC</button>
-                </form>
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <form action="/authenticate" method="GET">
+                        <div class="form-group">
+                            <label for="inputName">Name</label>
+                            <input type="text" class="form-control" name="name" id="inputName" placeholder="Enter name">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail">Email address</label>
+                            <input type="email" class="form-control" name="email" id="inputEmail" placeholder="Enter email">
+                        </div>
+                        <button class="btn btn-primary btn-block" name="authentication_type" value="game">Game</button>
+                        <button class="btn btn-primary btn-block" name="authentication_type" value="word_completion">Word</button>
+                        <button class="btn btn-primary btn-block" name="authentication_type" value="poc">PoC</button>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>    
+    </div>
 </body>
 </html>
