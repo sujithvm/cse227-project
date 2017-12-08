@@ -187,8 +187,8 @@ window.onload = function() {
                 });
 
                 if (type == "train") {
-                    alert("You are now trained with game. Go to Authenticate !!")
-                    window.location.href = "/authenticate"
+                    alert("You are now trained with game. Go to signup for other tasks !!")
+                    window.location.href = "/signup"
                 } else {
                     alert("Thank you!")
                     window.location.href = "/"
