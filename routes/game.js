@@ -29,14 +29,14 @@ router.get('/test', function(req, res, next) {
   UserTrainGame.findOne({'name': req.query.name, 'email': req.query.email}, function(err, usergame){
     if (err) {
       res.render('error')
-    } else {
+    } else if(usergame) {
       var user = new Object();
       user.name = req.query.name;
       user.email = req.query.email;
       user.data = GameSequenceGenerator(usergame.data.password)  
-
-      console.log(usergame.data.password)
       res.render('game', { userdata: user, type: "test" });
+    } else {
+      return res.render('authenticate', {"err": true, "message": "User does not exist. Please signup first"});
     }
   })
 });
