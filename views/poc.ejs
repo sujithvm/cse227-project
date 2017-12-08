@@ -22,10 +22,6 @@
     <script>
         window.onload = function() {
             data = JSON.parse(data)
-
-            console.log(type)
-
-
             var results = []
             var ptr = 0
             var word1 = ""
@@ -50,6 +46,7 @@
             }
 
             function nextCombination() {
+                console.log(ptr)
                 if (ptr + 1 < data.length) {
                     ptr += 1;
                     showCombination()
@@ -61,8 +58,7 @@
                         data: {"user": user, "choices": JSON.stringify(results)}
                     });
 
-                    
-                    if (type == train) {
+                    if (type == "train") {
                         alert("You have completed this section. Now authenticate yourself!!");
                         window.location.href="/authenticate"
                     } else {

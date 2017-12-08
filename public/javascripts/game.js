@@ -1,7 +1,5 @@
 window.onload = function() {
-    
-        //console.log(userdata)
-        
+            
         var canvases = []
         var titles = []
         for (var i = 0; i < 6; i++) {
