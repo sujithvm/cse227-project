@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Game Tutorial</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <script>
+        var name = <%- JSON.stringify(name) %>;
+        var email = <%- JSON.stringify(email) %>;
+
+        window.onload = function() {
+            var a = document.getElementById('play_link'); 
+            a.href = "/game/train?name=" + name + "&email=" + email;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center" style="margin: 20px">Game Tutorial</h1>
+    </div>
+    <div class="jumbotron">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="list-group">
+                        <li class="list-group-item">You will see six different columns labeled with the characters "SDFJKL" and a line at the base of each column.</li>
+                        <li class="list-group-item">Blue balls will slide down each column and change colour once they touch the line at the base of the column</li>
+                        <li class="list-group-item">Press the key that labels each column once the ball touches the line and changes colour</li>
+                        <li class="list-group-item">Place your fingers on the keys and get ready</li>
+                        <li class="list-group-item">
+                            <img src="/images/game_tutorial_1.jpeg" class="img-fluid" alt="Game tutorial image"/>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <br/>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <a class="btn btn-primary btn-block" role="button" id="play_link">
+                    <i class="fa fa-gamepad" aria-hidden="true"></i> Play
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
