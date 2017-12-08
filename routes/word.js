@@ -24,7 +24,7 @@ router.get('/auth', function(req, res, next) {
 
 router.post('/store', function(req, res, next) {
 
-  var data = {'user': req.body.user, 'stats': req.body.stats}
+  var data = {'user': req.body.user, 'stats': JSON.parse(req.body.stats)}
 
   request.post({url:'http://localhost:5000/perceptive/auth', form: data}, function(err, response, body){ 
       if (err) {

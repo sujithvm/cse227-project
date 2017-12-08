@@ -44,6 +44,49 @@ function gameSequenceGenerator(pass_seq) {
     shuffle(permutations)
 
     var data = {}
+    data["password"] = pass_seq ? pass_seq : permutations.splice(0, 1)
+    data["levels"] = []
+
+    var initial_interval = 1.2;
+    var initial_speed = 2.5;
+    for (var lev = 1; lev <= 1; lev++) {
+
+        var temp = []
+        for (var i = 0; i < data["password"].length; i++) {
+            temp = temp.concat(Array(1).fill(data["password"][i]))
+        }
+        shuffle(temp)
+        var sequence = []
+        for (var i = 0; i < temp.length; i++) {
+            sequence.push(temp[i]);
+
+            if (pass_seq && i % 5 == 0) {
+                sequence.push(permutations[Math.floor(Math.random() * permutations.length)])
+            }
+        }
+
+        var pattern_scores = {}
+        for (var i = 0; i < sequence.length; i++) {
+            pattern_scores[sequence[i]] = []
+        }
+
+        var level = {
+            "speed": initial_speed + (lev-1) * 1.1,
+            "interval": initial_interval - ((1.1) * (lev-1) * initial_interval)/(initial_speed + (lev-1) * 1.1),
+            "sequence": sequence,
+            "pattern_scores" : pattern_scores
+        }
+        data["levels"].push(level)
+    }
+    return data;
+}
+
+function gameSequenceGenerator(pass_seq) {
+
+    var permutations = Array.from(permute("SDFJKL".split(''))).map(perm => perm.join(''))
+    shuffle(permutations)
+
+    var data = {}
     data["password"] = pass_seq ? pass_seq : permutations.splice(0, 5)
     data["levels"] = []
 
@@ -60,7 +103,7 @@ function gameSequenceGenerator(pass_seq) {
         for (var i = 0; i < temp.length; i++) {
             sequence.push(temp[i]);
 
-            if (pass_seq) {
+            if (pass_seq && i % 5 == 0) {
                 sequence.push(permutations[Math.floor(Math.random() * permutations.length)])
             }
         }
@@ -71,14 +114,58 @@ function gameSequenceGenerator(pass_seq) {
         }
 
         var level = {
-            "speed": initial_speed + (lev-1) * 1.05,
-            "interval": initial_interval - ((1.05) * (lev-1) * initial_interval)/(initial_speed + (lev-1) * 1.05),
+            "speed": initial_speed + (lev-1) * 1.1,
+            "interval": initial_interval - ((1.1) * (lev-1) * initial_interval)/(initial_speed + (lev-1) * 1.1),
             "sequence": sequence,
             "pattern_scores" : pattern_scores
         }
         data["levels"].push(level)
     }
     return data;
+} 
+
+function gameSequenceGenerator4(pass_seq) {
+    
+    var permutations = Array.from(permute("DFJK".split(''))).map(perm => perm.join(''))
+    shuffle(permutations)
+
+    var data = {}
+    data["password"] = pass_seq ? pass_seq : permutations.splice(0, 4)
+    data["levels"] = []
+    
+    var initial_interval = 1.2;
+    var initial_speed = 2.5;
+    for (var lev = 1; lev <= 5; lev++) {
+    
+        var temp = []
+        for (var i = 0; i < data["password"].length; i++) {
+            temp = temp.concat(Array(5).fill(data["password"][i]))
+        }
+        shuffle(temp)
+        var sequence = []
+        for (var i = 0; i < temp.length; i++) {
+            sequence.push(temp[i]);
+    
+            if (pass_seq && i % 4 == 0) {
+                sequence.push(permutations[Math.floor(Math.random() * permutations.length)])
+            }
+        }
+    
+        var pattern_scores = {}
+        for (var i = 0; i < sequence.length; i++) {
+            pattern_scores[sequence[i]] = []
+        }
+    
+        var level = {
+            "speed": initial_speed + (lev-1) * 1.1,
+            "interval": initial_interval - ((1.1) * (lev-1) * initial_interval)/(initial_speed + (lev-1) * 1.1),
+            "sequence": sequence,
+            "pattern_scores" : pattern_scores
+        }
+        data["levels"].push(level)
+    }
+    console.log(pass_seq)
+    return data;
 }
 
-module.exports = gameSequenceGenerator
+module.exports = gameSequenceGenerator4

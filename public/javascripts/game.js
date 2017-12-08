@@ -1,8 +1,8 @@
 window.onload = function() {
-            
+        var numBalls = 4;
         var canvases = []
         var titles = []
-        for (var i = 0; i < 6; i++) {
+        for (var i = 0; i < numBalls; i++) {
             canvases.push(document.getElementById("canvas" + i));
             titles.push(document.getElementById("title" + i));
         }
@@ -14,8 +14,8 @@ window.onload = function() {
         var hitsDisplay = document.getElementById("hits");
         var missesDisplay = document.getElementById("misses");
     
-        var keycodeMap = {0:83, 1:68, 2:70, 3:74, 4:75, 5:76}
-        var charNumMap = {'S': 0, 'D': 1, 'F': 2, 'J': 3, 'K': 4, 'L':5}
+        var keycodeMap = numBalls == 6 ? {0:83, 1:68, 2:70, 3:74, 4:75, 5:76} : {0:68, 1:70, 2:74, 3:75}
+        var charNumMap = numBalls == 6 ? {'S': 0, 'D': 1, 'F': 2, 'J': 3, 'K': 4, 'L':5} : {'D': 0, 'F': 1, 'J': 2, 'K': 3}
         var expectedKey = -1;
         var correctkeyPressed = false;
         var keyPressed = false;
@@ -158,7 +158,7 @@ window.onload = function() {
             hitsDisplay.innerHTML = "Hits: " + hits;
             missesDisplay.innerHTML = "Misses: " + misses;
     
-            for (var i = 0; i < 6; i++) {
+            for (var i = 0; i < canvases.length; i++) {
                 canvases[i].getContext("2d").clearRect(0, 0, canvases[i].width, canvases[i].height)
                 titles[i].style.color = "black"
             }
@@ -199,7 +199,7 @@ window.onload = function() {
 
         function cleanQueue() {
 
-            var temp = queue.filter(b => (b.show == false || b.y >= b.canvas.height + ballRadius) && b.patternPosition == 5)
+            var temp = queue.filter(b => (b.show == false || b.y >= b.canvas.height + ballRadius) && b.patternPosition == numBalls - 1)
             if (temp.length == 1) {
                 var b = temp[0];
                 userdata["data"]["levels"][b.level]["pattern_scores"][b.pattern].push({"hits": pattern_hits, "misses": pattern_misses})
