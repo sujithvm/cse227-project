@@ -28,7 +28,7 @@ class PerceptiveMemoryChecker:
         if results:
             print("User already exists")
             return False
-        user_word_list = self._get_random_word_list(20)
+        user_word_list = self._get_random_word_list(30)
         self.db['users'].insert_one({'name':user, "word_list":user_word_list})
         return True
 
@@ -47,7 +47,7 @@ class PerceptiveMemoryChecker:
         avail_words = list(set(all_words) - word_set_for_user)
         random.shuffle(word_list_for_user)
         random.shuffle(avail_words)
-        test_word_list = word_list_for_user[:10] + avail_words[:10]
+        test_word_list = word_list_for_user[:15] + avail_words[:15]
         results = list(self.db['words'].find({"$or":[{"WORD":word} for word in
             test_word_list] }, {"_id":0}))
         for d in results:
