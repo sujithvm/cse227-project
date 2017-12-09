@@ -78,7 +78,7 @@ class ProceduralMemoryChecker:
         if results:
             print("User already exists")
             return False
-        user_word_set = self._get_random_word_set(20)
+        user_word_set = self._get_random_word_set(30)
         self.db['users'].insert_one({'name':user, "word_set":user_word_set})
         return True
 
