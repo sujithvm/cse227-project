@@ -24,7 +24,7 @@ def perc_test():
 @app.route('/perceptive/auth', methods=['POST'])
 def perc_store_stats():
     user = request.form.get('user')
-    stats = request.form.get('stats')
+    stats = json.loads(request.form.get('stats'))
     pmc.store_stats_for_user(user, stats)
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
@@ -38,8 +38,6 @@ def poc_signup():
 def poc_train():
     user = request.form.get('user')
     choices = eval(request.form.get('choices'))
-    print user
-    print choices
     poc.store_user_choices(user, choices)
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
