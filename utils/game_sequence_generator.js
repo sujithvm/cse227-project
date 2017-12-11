@@ -60,7 +60,7 @@ function gameSequenceGenerator(pass_seq) {
         for (var i = 0; i < temp.length; i++) {
             sequence.push(temp[i]);
 
-            if (pass_seq && i % 5 == 0) {
+            if (pass_seq && i % 3 == 0) {
                 sequence.push(permutations[Math.floor(Math.random() * permutations.length)])
             }
         }
