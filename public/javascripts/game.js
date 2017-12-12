@@ -190,8 +190,8 @@ window.onload = function() {
                     alert("You are now trained with game. Go to signup for other tasks !!")
                     window.location.href = "/signup"
                 } else {
-                    alert("Thank you!")
-                    window.location.href = "/"
+                    alert("You can have completed this task. Please complete authentication for other tasks. Thank you!")
+                    window.location.href = "/authenticate"
                 }
                 
             }
