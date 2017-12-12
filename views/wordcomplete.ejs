@@ -30,9 +30,14 @@
             var word = []
             var pos = []
             var p = 0;
+
+            var startTime = null;
+
      
             function showNextWord() {
                 if (ptr < data.length) {
+                    startTime = new Date()
+
                     actual = data[ptr]['BLANKS'].toUpperCase().split("")
                     word = actual.slice()
                     pos = data[ptr]['POSITIONS']
@@ -91,6 +96,10 @@
             $("#next").click(function(){
                 if (ptr < data.length) {
                     data[ptr]['USER_INPUT'] = word.join("").toLowerCase()
+
+                    var seconds = (new Date().getTime() - startTime.getTime()) / 1000;
+                    data[ptr]['TIME'] = seconds
+                    
                     ptr += 1
                 }
             
